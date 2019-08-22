@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Tt.CSharp.BestPractices.ConsoleApp.Trading": {
+      "commandName": "Project",
+      "commandLineArgs": "msft.csv"
+    }
+  }
+}
