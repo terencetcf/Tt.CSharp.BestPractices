@@ -6,6 +6,8 @@ using Tt.CSharp.BestPractices.ConsoleApp.Trading.Analyzers;
 using Tt.CSharp.BestPractices.ConsoleApp.Trading.Retrievers;
 using Tt.CSharp.BestPractices.ConsoleApp.Trading.Factories;
 using Tt.CSharp.BestPractices.ConsoleApp.Trading.Reporters;
+using System.Linq;
+using System.Diagnostics;
 
 namespace Tt.CSharp.BestPractices.ConsoleApp.Trading
 {
@@ -17,14 +19,20 @@ namespace Tt.CSharp.BestPractices.ConsoleApp.Trading
             var sourcePath = cmdArgsRetriever.GetSourcePath(args);
             //sourcePath = "https://jsonblob.com/api/80a3e281-c4fb-11e9-9e37-89e98d519613";
 
-            var factory = new TradeRetrieverFactory();
+            var factory = new StockQuoteRetrieverFactory();
             var retriever = factory.GetTradeRetriever(sourcePath);
-            var trades = retriever.GetTrades(sourcePath);
+            var trades = retriever.GetStockQuotes(sourcePath).ToList();
 
-            var analyzer = new TradeAnalyzer(new ConsoleReporter());
+            var analyzer = new StockQuoteAnalyzer();
             analyzer.PivotDownsideFoundEvent += PivotDownsideFoundEventHandler;
             analyzer.PivotUpsideFoundEvent += PivotUpsideFoundEventHandler;
-            analyzer.AnalyzeTrades(trades);
+            var reversals = analyzer.LocateReversal(trades).AsParallel();
+            var reporter = new ConsoleReporter();
+            reporter.Report(reversals);
+
+            //var timeAnalyzer = new TimeAnalyzer();
+            //var elapsed = timeAnalyzer.Measure(() => PrimeNumberAnalyzer.FindLargePrimesInParallel(900000, 910000));
+            //Console.WriteLine(elapsed.TotalMilliseconds);
 
             //var date = new List<DateTime>();
             //var open = new List<decimal>();
@@ -61,14 +69,14 @@ namespace Tt.CSharp.BestPractices.ConsoleApp.Trading
 
         static void PivotDownsideFoundEventHandler(object sender, DateTime date)
         {
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("Pivot downside {0}", date.ToShortDateString());
+            //Console.ForegroundColor = ConsoleColor.Yellow;
+            //Console.WriteLine("Pivot downside {0}", date.ToShortDateString());
         }
 
         static void PivotUpsideFoundEventHandler(object sender, DateTime date)
         {
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine("Pivot upside {0}", date.ToShortDateString());
+            //Console.ForegroundColor = ConsoleColor.Cyan;
+            //Console.WriteLine("Pivot upside {0}", date.ToShortDateString());
         }
     }
 }

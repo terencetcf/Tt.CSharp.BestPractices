@@ -4,12 +4,12 @@ using Tt.CSharp.BestPractices.ConsoleApp.Trading.Entities;
 
 namespace Tt.CSharp.BestPractices.ConsoleApp.Trading.Analyzers
 {
-    public interface ITradeAnalyzer
+    public interface IStockQuotenalyzer
     {
         event PivotDownsideFoundDelegate PivotDownsideFoundEvent;
 
         event PivotUpsideFoundDelegate PivotUpsideFoundEvent;
 
-        void AnalyzeTrades(IList<Trade> trades);
+        IEnumerable<Reversal> LocateReversal(IList<StockQuote> trades);
     }
 }

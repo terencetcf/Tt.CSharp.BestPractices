@@ -2,16 +2,16 @@
 using Tt.CSharp.BestPractices.ConsoleApp.Trading.Factories;
 using Tt.CSharp.BestPractices.ConsoleApp.Trading.Retrievers;
 
-namespace Tt.CSharp.BestPractices.TradeAnalyzerTests.Factories
+namespace Tt.CSharp.BestPractices.ConsoleApp.Trading.Tests.Factories
 {
-    public class TradeRetrieverFactoryTests
+    public class StockQuoteRetrieverFactoryTests
     {
-        private ITradeRetrieverFactory sut;
+        private IStockQuoteRetrieverFactory sut;
 
         [SetUp]
         public void SetUp()
         {
-            sut = new TradeRetrieverFactory();
+            sut = new StockQuoteRetrieverFactory();
         }
 
         [Test]
@@ -19,7 +19,7 @@ namespace Tt.CSharp.BestPractices.TradeAnalyzerTests.Factories
         {
             var result = sut.GetTradeRetriever("http://test.api");
 
-            Assert.IsInstanceOf<ApiTradeRetriever>(result);
+            Assert.IsInstanceOf<ApiStockQuoteRetriever>(result);
         }
 
         [Test]
@@ -27,7 +27,7 @@ namespace Tt.CSharp.BestPractices.TradeAnalyzerTests.Factories
         {
             var result = sut.GetTradeRetriever("test.csv");
 
-            Assert.IsInstanceOf<CsvFileTradeRetriever>(result);
+            Assert.IsInstanceOf<CsvFileStockQuoteRetriever>(result);
         }
     }
 }

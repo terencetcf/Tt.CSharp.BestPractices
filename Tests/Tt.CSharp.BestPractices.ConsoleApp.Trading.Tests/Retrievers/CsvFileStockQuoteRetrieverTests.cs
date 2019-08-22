@@ -3,19 +3,16 @@ using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Tt.CSharp.BestPractices.ConsoleApp.Trading.Entities;
 using Tt.CSharp.BestPractices.ConsoleApp.Trading.Mappers;
 using Tt.CSharp.BestPractices.ConsoleApp.Trading.Retrievers;
 using Tt.CSharp.BestPractices.ConsoleApp.Trading.Wrappers;
 
-namespace Tt.CSharp.BestPractices.ConsoleApp.Trading.TestsTests
+namespace Tt.CSharp.BestPractices.ConsoleApp.Trading.Tests.Retrievers
 {
-    public class CsvFileTradeRetrieverTests
+    public class CsvFileStockQuoteRetrieverTests
     {
-        private ITradeRetriever sut;
+        private IStockQuoteRetriever sut;
 
         private const string sourcePath = "test.csv";
         private Mock<IFileWrapper> mockFileWrapper;
@@ -25,7 +22,7 @@ namespace Tt.CSharp.BestPractices.ConsoleApp.Trading.TestsTests
         {
             mockFileWrapper = new Mock<IFileWrapper>();
 
-            sut = new CsvFileTradeRetriever(mockFileWrapper.Object, new DelimiterListContentMapper());
+            sut = new CsvFileStockQuoteRetriever(mockFileWrapper.Object, new DelimiterListContentMapper());
         }
 
         [Test]
@@ -33,7 +30,7 @@ namespace Tt.CSharp.BestPractices.ConsoleApp.Trading.TestsTests
         {
             mockFileWrapper.Setup(s => s.Exists(sourcePath)).Returns(false);
 
-            Assert.Throws<InvalidOperationException>(() => sut.GetTrades(sourcePath));
+            Assert.Throws<InvalidOperationException>(() => sut.GetStockQuotes(sourcePath));
         }
 
         [Test]
@@ -47,18 +44,18 @@ namespace Tt.CSharp.BestPractices.ConsoleApp.Trading.TestsTests
             mockFileWrapper.Setup(s => s.Exists(sourcePath)).Returns(true);
             mockFileWrapper.Setup(s => s.ReadAllLines(sourcePath)).Returns(response);
 
-            var result = sut.GetTrades(sourcePath);
+            var result = sut.GetStockQuotes(sourcePath);
 
-            result.Should().BeEquivalentTo(new List<Trade>
+            result.Should().BeEquivalentTo(new List<StockQuote>
             {
-                new Trade {
+                new StockQuote {
                     Date = new DateTime(2011,9,8),
                     Open = 10,
                     High = 11,
                     Low = 12,
                     Close = 13
                 },
-                new Trade {
+                new StockQuote {
                     Date = new DateTime(2011,9,7),
                     Open = 11,
                     High = 12,

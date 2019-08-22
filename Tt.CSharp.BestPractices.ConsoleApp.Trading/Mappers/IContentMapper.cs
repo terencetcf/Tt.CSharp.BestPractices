@@ -5,6 +5,6 @@ namespace Tt.CSharp.BestPractices.ConsoleApp.Trading.Mappers
 {
     public interface IContentMapper
     {
-        IEnumerable<Trade> MapContentsToTrades(object contents);
+        IEnumerable<StockQuote> MapContentsToTrades(object contents);
     }
 }

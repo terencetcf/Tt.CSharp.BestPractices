@@ -6,7 +6,7 @@ using System.Linq;
 using Tt.CSharp.BestPractices.ConsoleApp.Trading.Entities;
 using Tt.CSharp.BestPractices.ConsoleApp.Trading.Mappers;
 
-namespace Tt.CSharp.BestPractices.TradeAnalyzerTests.Mappers
+namespace Tt.CSharp.BestPractices.ConsoleApp.Trading.Tests.Mappers
 {
     public class DelimiterListContentMapperTests
     {
@@ -29,16 +29,16 @@ namespace Tt.CSharp.BestPractices.TradeAnalyzerTests.Mappers
 
             var result = sut.MapContentsToTrades(lines).ToList();
 
-            result.Should().BeEquivalentTo(new List<Trade>
+            result.Should().BeEquivalentTo(new List<StockQuote>
             {
-                new Trade {
+                new StockQuote {
                     Date = new DateTime(2011,9,8),
                     Open = 10,
                     High = 11,
                     Low = 12,
                     Close = 13
                 },
-                new Trade {
+                new StockQuote {
                     Date = new DateTime(2011,9,7),
                     Open = 11,
                     High = 12,

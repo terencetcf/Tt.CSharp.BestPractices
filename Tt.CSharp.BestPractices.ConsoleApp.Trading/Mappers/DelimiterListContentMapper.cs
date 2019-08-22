@@ -8,14 +8,14 @@ namespace Tt.CSharp.BestPractices.ConsoleApp.Trading.Mappers
 {
     public class DelimiterListContentMapper : IContentMapper
     {
-        public IEnumerable<Trade> MapContentsToTrades(object contents)
+        public IEnumerable<StockQuote> MapContentsToTrades(object contents)
         {
             var lines = contents as string[];
 
             foreach (var line in lines.Skip(1))
             {
                 var columns = line.Split(',');
-                yield return new Trade()
+                yield return new StockQuote()
                 {
                     Date = DateTime.Parse(columns[0], CultureInfo.InvariantCulture),
                     Open = decimal.Parse(columns[1]),

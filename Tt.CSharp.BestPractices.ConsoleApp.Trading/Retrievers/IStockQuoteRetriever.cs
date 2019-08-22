@@ -3,8 +3,8 @@ using Tt.CSharp.BestPractices.ConsoleApp.Trading.Entities;
 
 namespace Tt.CSharp.BestPractices.ConsoleApp.Trading.Retrievers
 {
-    public interface ITradeRetriever
+    public interface IStockQuoteRetriever
     {
-        List<Trade> GetTrades(string sourcePath);
+        IEnumerable<StockQuote> GetStockQuotes(string sourcePath);
     }
 }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Tt.CSharp.BestPractices.ConsoleApp.Trading.Entities;
 using Tt.CSharp.BestPractices.ConsoleApp.Trading.Mappers;
 
-namespace Tt.CSharp.BestPractices.TradeAnalyzerTests.Mappers
+namespace Tt.CSharp.BestPractices.ConsoleApp.Trading.Tests.Mappers
 {
     public class JsonContentMapperTests
     {
@@ -25,9 +25,9 @@ namespace Tt.CSharp.BestPractices.TradeAnalyzerTests.Mappers
             var result = sut.MapContentsToTrades(jsonBlob);
 
             result.Should().BeEquivalentTo(
-                new List<Trade>
+                new List<StockQuote>
                 {
-                    new Trade
+                    new StockQuote
                     {
                         Date = new DateTime(2019, 1,2),
                         Open = 1,
@@ -35,7 +35,7 @@ namespace Tt.CSharp.BestPractices.TradeAnalyzerTests.Mappers
                         Low = 1,
                         Close = 2
                     },
-                    new Trade
+                    new StockQuote
                     {
                         Date = new DateTime(2019, 1,1),
                         Open = 3,

@@ -10,11 +10,11 @@ using Tt.CSharp.BestPractices.ConsoleApp.Trading.Mappers;
 using Tt.CSharp.BestPractices.ConsoleApp.Trading.Retrievers;
 using Tt.CSharp.BestPractices.ConsoleApp.Trading.Wrappers;
 
-namespace Tt.CSharp.BestPractices.ConsoleApp.Trading.TestsTests
+namespace Tt.CSharp.BestPractices.ConsoleApp.Trading.Tests.Retrievers
 {
-    public class ApiTradeRetrieverTests
+    public class ApiStockQuoteRetrieverTests
     {
-        private ITradeRetriever sut;
+        private IStockQuoteRetriever sut;
 
         private const string SourcePath = "http://the.api/jsonblob";
         private Mock<IHttpClientWrapper> mockHttpClient;
@@ -23,7 +23,7 @@ namespace Tt.CSharp.BestPractices.ConsoleApp.Trading.TestsTests
         public void SetUp()
         {
             mockHttpClient = new Mock<IHttpClientWrapper>();
-            sut = new ApiTradeRetriever(mockHttpClient.Object, new JsonContentMapper());
+            sut = new ApiStockQuoteRetriever(mockHttpClient.Object, new JsonContentMapper());
         }
 
         [Test]
@@ -35,7 +35,8 @@ namespace Tt.CSharp.BestPractices.ConsoleApp.Trading.TestsTests
                     StatusCode = HttpStatusCode.InternalServerError
                 });
 
-            Assert.Throws<InvalidOperationException>(() => sut.GetTrades(SourcePath));
+            Assert.Throws<ArgumentNullException>(() => sut.GetStockQuotes(SourcePath));
+            mockHttpClient.Verify(s => s.GetAsync(SourcePath), Times.Exactly(3));
         }
 
         [Test]
@@ -48,12 +49,12 @@ namespace Tt.CSharp.BestPractices.ConsoleApp.Trading.TestsTests
                     Content = new StringContent("[{\"Date\":\"1/2/2019\",\"Open\":1,\"High\":2,\"Low\":1,\"Close\":2},{\"Date\":\"1/1/2019\",\"Open\":3,\"High\":3,\"Low\":3,\"Close\":3}]")
                 });
 
-            var result = sut.GetTrades(SourcePath);
+            var result = sut.GetStockQuotes(SourcePath);
 
             result.Should().BeEquivalentTo(
-                new List<Trade>
+                new List<StockQuote>
                 {
-                    new Trade
+                    new StockQuote
                     {
                         Date = new DateTime(2019, 1,2),
                         Open = 1,
@@ -61,7 +62,7 @@ namespace Tt.CSharp.BestPractices.ConsoleApp.Trading.TestsTests
                         Low = 1,
                         Close = 2
                     },
-                    new Trade
+                    new StockQuote
                     {
                         Date = new DateTime(2019, 1,1),
                         Open = 3,

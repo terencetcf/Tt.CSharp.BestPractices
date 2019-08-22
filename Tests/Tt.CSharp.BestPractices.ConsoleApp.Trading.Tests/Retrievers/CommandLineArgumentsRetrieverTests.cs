@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using Tt.CSharp.BestPractices.ConsoleApp.Trading.Retrievers;
 
-namespace Tt.CSharp.BestPractices.ConsoleApp.Trading.TestsTests.Readers
+namespace Tt.CSharp.BestPractices.ConsoleApp.Trading.Tests.Retrievers
 {
     public class CommandLineArgumentsRetrieverTests
     {

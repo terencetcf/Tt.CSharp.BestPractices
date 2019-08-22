@@ -6,10 +6,10 @@ namespace Tt.CSharp.BestPractices.ConsoleApp.Trading.Mappers
 {
     public class JsonContentMapper : IContentMapper
     {
-        public IEnumerable<Trade> MapContentsToTrades(object contents)
+        public IEnumerable<StockQuote> MapContentsToTrades(object contents)
         {
             var jsonBlob = contents as string;
-            var trades = JsonConvert.DeserializeObject<IEnumerable<Trade>>(jsonBlob);
+            var trades = JsonConvert.DeserializeObject<IEnumerable<StockQuote>>(jsonBlob);
 
             return trades;
         }
